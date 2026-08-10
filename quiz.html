@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Daily Quiz | Rescue Academy</title>
+
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --surface: #ffffff;
+      --text: #1f2328;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #b4232c;
+      --accent-dark: #8f1820;
+      --accent-soft: #f8e9eb;
+      --success: #2f855a;
+      --success-soft: #eaf6ef;
+      --danger: #c53030;
+      --danger-soft: #fdecec;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      width: min(100%, 520px);
+      min-height: 100vh;
+      margin: 0 auto;
+      background: var(--surface);
+      padding-bottom: 35px;
+    }
+
+    header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .back {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 12px;
+      background: #f1f3f5;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .title {
+      flex: 1;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .title p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .progress-wrap {
+      padding: 18px 20px 0;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .progress-track {
+      height: 9px;
+      border-radius: 999px;
+      background: #edf0f2;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 10%;
+      height: 100%;
+      background: var(--accent);
+      transition: width .25s ease;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    .category {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      letter-spacing: .3px;
+    }
+
+    .question {
+      font-size: 21px;
+      font-weight: 750;
+      line-height: 1.4;
+      margin-bottom: 22px;
+    }
+
+    .answers {
+      display: grid;
+      gap: 11px;
+    }
+
+    .answer {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 16px;
+      padding: 15px;
+      text-align: left;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .answer-letter {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: #f2f3f5;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      flex: 0 0 auto;
+    }
+
+    .answer-text {
+      padding-top: 5px;
+      line-height: 1.4;
+    }
+
+    .answer.correct {
+      border-color: #a7d7bb;
+      background: var(--success-soft);
+    }
+
+    .answer.correct .answer-letter {
+      background: var(--success);
+      color: white;
+    }
+
+    .answer.wrong {
+      border-color: #efb3b3;
+      background: var(--danger-soft);
+    }
+
+    .answer.wrong .answer-letter {
+      background: var(--danger);
+      color: white;
+    }
+
+    .answer:disabled {
+      cursor: default;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 16px;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.correct {
+      background: var(--success-soft);
+    }
+
+    .feedback.wrong {
+      background: var(--danger-soft);
+    }
+
+    .feedback-title {
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+
+    .feedback-text {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #4b5158;
+    }
+
+    .next {
+      display: none;
+      width: 100%;
+      margin-top: 20px;
+      border: none;
+      border-radius: 15px;
+      background: var(--accent);
+      color: white;
+      padding: 15px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .next.show {
+      display: block;
+    }
+
+    .result {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .score-circle {
+      width: 120px;
+      height: 120px;
+      margin: 10px auto 20px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      font-weight: 850;
+    }
+
+    .result h2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .result p {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .result-card {
+      margin-top: 22px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      text-align: left;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px solid #f0f1f2;
+    }
+
+    .result-row:last-child {
+      border-bottom: none;
+    }
+
+    .home-button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 15px;
+      border: none;
+      border-radius: 15px;
+      background: var(--accent);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .restart-button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: white;
+      color: var(--text);
+      font-weight: 750;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <header>
+    <div class="topbar">
+
+      <button class="back" id="backButton" aria-label="Επιστροφή">←</button>
+
+      <div class="title">
+        <h1>Daily Quiz</h1>
+        <p>10 ερωτήσεις • Rescue Academy</p>
+      </div>
+
+    </div>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-text">
+      <span id="questionNumber">Ερώτηση 1 από 10</span>
+      <span id="scoreText">0 σωστές</span>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+  </div>
+
+  <main>
+
+    <section id="quizScreen">
+
+      <div class="category" id="category"></div>
+
+      <div class="question" id="question"></div>
+
+      <div class="answers" id="answers"></div>
+
+      <div class="feedback" id="feedback">
+        <div class="feedback-title" id="feedbackTitle"></div>
+        <div class="feedback-text" id="feedbackText"></div>
+      </div>
+
+      <button class="next" id="nextButton">Επόμενη ερώτηση</button>
+
+    </section>
+
+
+    <section class="result" id="resultScreen">
+
+      <div class="score-circle" id="finalScore"></div>
+
+      <h2 id="resultTitle"></h2>
+
+      <p id="resultMessage"></p>
+
+      <div class="result-card">
+
+        <div class="result-row">
+          <span>Σωστές απαντήσεις</span>
+          <strong id="correctResult"></strong>
+        </div>
+
+        <div class="result-row">
+          <span>Λάθος απαντήσεις</span>
+          <strong id="wrongResult"></strong>
+        </div>
+
+        <div class="result-row">
+          <span>Ποσοστό</span>
+          <strong id="percentResult"></strong>
+        </div>
+
+      </div>
+
+      <button class="home-button" id="homeButton">
+        Επιστροφή στην Αρχική
+      </button>
+
+      <button class="restart-button" id="restartButton">
+        Επανάληψη Quiz
+      </button>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+  {
+    category: "Θεμελιώδεις Αρχές",
+    question: "Ποια από τις παρακάτω είναι Θεμελιώδης Αρχή του Κινήματος του Ερυθρού Σταυρού και της Ερυθράς Ημισελήνου;",
+    options: [
+      "Ανταγωνισμός",
+      "Ουδετερότητα",
+      "Πειθαρχία",
+      "Αυτονομία"
+    ],
+    answer: 1,
+    explanation: "Η Ουδετερότητα είναι μία από τις επτά Θεμελιώδεις Αρχές του Κινήματος."
+  },
+
+  {
+    category: "Θεμελιώδεις Αρχές",
+    question: "Ποια είναι η πρώτη Θεμελιώδης Αρχή;",
+    options: [
+      "Παγκοσμιότητα",
+      "Ανεξαρτησία",
+      "Ανθρωπισμός",
+      "Εθελοντισμός"
+    ],
+    answer: 2,
+    explanation: "Οι επτά Θεμελιώδεις Αρχές ξεκινούν με τον Ανθρωπισμό."
+  },
+
+  {
+    category: "Κώδικας Δεοντολογίας",
+    question: "Ο Εθελοντής Σαμαρείτης οφείλει να σέβεται τις ανθρωπιστικές αρχές:",
+    options: [
+      "Μόνο όταν εκτελεί υπηρεσία",
+      "Μόνο όταν φορά στολή",
+      "Οπουδήποτε βρίσκεται, ως πολίτης ή σε υπηρεσία",
+      "Μόνο σε οργανωμένες δράσεις"
+    ],
+    answer: 2,
+    explanation: "Ο Κώδικας Δεοντολογίας προβλέπει ότι ο εθελοντής σέβεται και τηρεί τις ανθρωπιστικές αρχές οπουδήποτε βρίσκεται."
+  },
+
+  {
+    category: "Διασωστικές Λαβές",
+    question: "Ποιο τμήμα του σώματος θεωρείται συνήθως βαρύτερο κατά την κατανομή των διασωστών στις λαβές;",
+    options: [
+      "Τα πόδια",
+      "Η πύελος",
+      "Ο ανώτερος κορμός",
+      "Όλα θεωρούνται ίσα"
+    ],
+    answer: 2,
+    explanation: "Ο ανώτερος κορμός θεωρείται συνήθως βαρύτερος και απαιτεί μεγαλύτερη προσοχή στην κατανομή των διασωστών."
+  },
+
+  {
+    category: "Αυτοσχέδια Φορεία",
+    question: "Σε αυτοσχέδιο φορείο με κουβέρτα, πώς μπορούν να δημιουργηθούν ασφαλείς λαβές;",
+    options: [
+      "Κόβοντας την κουβέρτα",
+      "Διπλώνοντας τα πλαϊνά τμήματα σε ρολό ή βεντάλια",
+      "Δένοντας μόνο τις γωνίες",
+      "Χρησιμοποιώντας μόνο σχοινί"
+    ],
+    answer: 1,
+    explanation: "Τα πλαϊνά τμήματα της κουβέρτας μπορούν να διπλωθούν ή να τυλιχθούν ώστε να σχηματιστούν λαβές."
+  },
+
+  {
+    category: "Σπονδυλική Στήλη",
+    question: "Ποιο μέσο χρησιμοποιείται για τη μεταφορά του τραυματία πάνω στο στρώμα πολυτραυματία;",
+    options: [
+      "Απλό φορείο",
+      "Καρέκλα μεταφοράς",
+      "Scoop stretcher",
+      "Σεντόνι διάσωσης"
+    ],
+    answer: 2,
+    explanation: "Για την τοποθέτηση του τραυματία στο στρώμα πολυτραυματία χρησιμοποιείται το κοίλο σπαστό φορείο, δηλαδή scoop stretcher."
+  },
+
+  {
+    category: "Στρώμα Πολυτραυματία",
+    question: "Τι συμβαίνει όταν αφαιρεθεί ο αέρας από το στρώμα πολυτραυματία;",
+    options: [
+      "Το στρώμα γίνεται μαλακότερο",
+      "Το κοκκώδες υλικό συμπυκνώνεται και το στρώμα γίνεται άκαμπτο",
+      "Το στρώμα φουσκώνει περισσότερο",
+      "Δεν μεταβάλλεται η μορφή του"
+    ],
+    answer: 1,
+    explanation: "Με την αφαίρεση του αέρα το κοκκώδες υλικό συμπυκνώνεται και το στρώμα παίρνει τη μορφή του σώματος, επιτυγχάνοντας ακινητοποίηση."
+  },
+
+  {
+    category: "Βασικές Αρχές Διάσωσης",
+    question: "Πόσες βασικές ζώνες διακρίνονται σε μια καταστροφή σύμφωνα με την εκπαιδευτική ύλη;",
+    options: [
+      "Δύο",
+      "Τρεις",
+      "Τέσσερις",
+      "Πέντε"
+    ],
+    answer: 1,
+    explanation: "Διακρίνονται τρεις ζώνες: ζώνη κινδύνου, ζώνη ελέγχου-διαλογής και ζώνη πρόσβασης."
+  },
+
+  {
+    category: "Ζώνη Κινδύνου",
+    question: "Ποιος είναι ο κύριος στόχος μέσα στη ζώνη κινδύνου;",
+    options: [
+      "Η πλήρης ιατρική αντιμετώπιση όλων των κακώσεων",
+      "Η παραμονή του τραυματία μέχρι να ολοκληρωθεί η εξέταση",
+      "Η άμεση απομάκρυνση των θυμάτων προς ασφαλέστερη ζώνη",
+      "Η καταγραφή πλήρους ιστορικού"
+    ],
+    answer: 2,
+    explanation: "Στη ζώνη κινδύνου προτεραιότητα είναι η ταχεία απομάκρυνση του θύματος προς τη ζώνη ελέγχου-διαλογής."
+  },
+
+  {
+    category: "Ζώνη Κινδύνου",
+    question: "Ποια προβλήματα πρώτων βοηθειών πρέπει να αντιμετωπίζονται άμεσα μέσα στη ζώνη κινδύνου;",
+    options: [
+      "Μόνο μικρά τραύματα",
+      "Απόφραξη αεραγωγού και μεγάλη απειλητική για τη ζωή αιμορραγία",
+      "Όλα τα κατάγματα",
+      "Μόνο εγκαύματα"
+    ],
+    answer: 1,
+    explanation: "Η ύλη αναφέρει ότι μέσα στη ζώνη κινδύνου αντιμετωπίζονται άμεσα η απόφραξη του αεραγωγού και η μεγάλη απειλητική για τη ζωή αιμορραγία."
+  }
+
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+
+const questionElement = document.getElementById("question");
+const categoryElement = document.getElementById("category");
+const answersElement = document.getElementById("answers");
+
+const questionNumber = document.getElementById("questionNumber");
+const scoreText = document.getElementById("scoreText");
+const progressBar = document.getElementById("progressBar");
+
+const feedback = document.getElementById("feedback");
+const feedbackTitle = document.getElementById("feedbackTitle");
+const feedbackText = document.getElementById("feedbackText");
+
+const nextButton = document.getElementById("nextButton");
+
+const quizScreen = document.getElementById("quizScreen");
+const resultScreen = document.getElementById("resultScreen");
+
+
+function loadQuestion() {
+
+  answered = false;
+
+  feedback.className = "feedback";
+  nextButton.classList.remove("show");
+
+  const item = questions[currentQuestion];
+
+  categoryElement.textContent = item.category;
+  questionElement.textContent = item.question;
+
+  questionNumber.textContent =
+    `Ερώτηση ${currentQuestion + 1} από ${questions.length}`;
+
+  scoreText.textContent = `${score} σωστές`;
+
+  progressBar.style.width =
+    `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+  answersElement.innerHTML = "";
+
+  const letters = ["Α", "Β", "Γ", "Δ"];
+
+  item.options.forEach((option, index) => {
+
+    const button = document.createElement("button");
+
+    button.className = "answer";
+
+    button.innerHTML = `
+      <span class="answer-letter">${letters[index]}</span>
+      <span class="answer-text">${option}</span>
+    `;
+
+    button.addEventListener("click", () =>
+      selectAnswer(index, button)
+    );
+
+    answersElement.appendChild(button);
+
+  });
+
+}
+
+
+function selectAnswer(index, selectedButton) {
+
+  if (answered) return;
+
+  answered = true;
+
+  const item = questions[currentQuestion];
+
+  const buttons =
+    document.querySelectorAll(".answer");
+
+  buttons.forEach(button => {
+    button.disabled = true;
+  });
+
+
+  if (index === item.answer) {
+
+    score++;
+
+    selectedButton.classList.add("correct");
+
+    feedback.className =
+      "feedback show correct";
+
+    feedbackTitle.textContent =
+      "✓ Σωστή απάντηση";
+
+  } else {
+
+    selectedButton.classList.add("wrong");
+
+    buttons[item.answer].classList.add("correct");
+
+    feedback.className =
+      "feedback show wrong";
+
+    feedbackTitle.textContent =
+      "✕ Λάθος απάντηση";
+
+  }
+
+  feedbackText.textContent =
+    item.explanation;
+
+  scoreText.textContent =
+    `${score} σωστές`;
+
+  nextButton.classList.add("show");
+
+}
+
+
+nextButton.addEventListener("click", () => {
+
+  currentQuestion++;
+
+  if (currentQuestion < questions.length) {
+
+    loadQuestion();
+
+  } else {
+
+    showResults();
+
+  }
+
+});
+
+
+function showResults() {
+
+  quizScreen.style.display = "none";
+
+  resultScreen.classList.add("show");
+
+  const percent =
+    Math.round((score / questions.length) * 100);
+
+  document.getElementById("finalScore")
+    .textContent = `${percent}%`;
+
+  document.getElementById("correctResult")
+    .textContent = score;
+
+  document.getElementById("wrongResult")
+    .textContent = questions.length - score;
+
+  document.getElementById("percentResult")
+    .textContent = `${percent}%`;
+
+
+  let title;
+  let message;
+
+  if (percent >= 90) {
+
+    title = "Εξαιρετική επίδοση";
+    message =
+      "Πολύ δυνατή γνώση της συγκεκριμένης ύλης.";
+
+  } else if (percent >= 70) {
+
+    title = "Πολύ καλή προσπάθεια";
+    message =
+      "Υπάρχουν λίγα σημεία που αξίζει να επαναλάβεις.";
+
+  } else {
+
+    title = "Χρειάζεται επανάληψη";
+    message =
+      "Το αποτέλεσμα θα χρησιμοποιείται αργότερα για στοχευμένη επανάληψη των αδυναμιών.";
+
+  }
+
+  document.getElementById("resultTitle")
+    .textContent = title;
+
+  document.getElementById("resultMessage")
+    .textContent = message;
+
+}
+
+
+document.getElementById("restartButton")
+  .addEventListener("click", () => {
+
+    currentQuestion = 0;
+    score = 0;
+
+    resultScreen.classList.remove("show");
+    quizScreen.style.display = "block";
+
+    loadQuestion();
+
+  });
+
+
+document.getElementById("homeButton")
+  .addEventListener("click", () => {
+
+    window.location.href = "index.html";
+
+  });
+
+
+document.getElementById("backButton")
+  .addEventListener("click", () => {
+
+    window.location.href = "index.html";
+
+  });
+
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
