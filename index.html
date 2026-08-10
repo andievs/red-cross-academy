@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Red Cross Academy</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f6f8;
+      color: #202124;
+    }
+
+    .app {
+      max-width: 480px;
+      margin: auto;
+      min-height: 100vh;
+      background: #ffffff;
+      padding-bottom: 90px;
+    }
+
+    .header {
+      padding: 28px 22px 18px;
+      background: #ffffff;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .cross {
+      width: 42px;
+      height: 42px;
+      background: #d71920;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .cross::before,
+    .cross::after {
+      content: "";
+      position: absolute;
+      background: white;
+      border-radius: 2px;
+    }
+
+    .cross::before {
+      width: 24px;
+      height: 8px;
+      top: 17px;
+      left: 9px;
+    }
+
+    .cross::after {
+      width: 8px;
+      height: 24px;
+      top: 9px;
+      left: 17px;
+    }
+
+    .brand-title {
+      font-weight: 750;
+      font-size: 19px;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: #7b7f86;
+      margin-top: 2px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin: 0 0 6px;
+    }
+
+    .welcome {
+      color: #72767d;
+      margin: 0;
+    }
+
+    .content {
+      padding: 0 20px;
+    }
+
+    .progress-card {
+      background: #a71920;
+      color: white;
+      border-radius: 22px;
+      padding: 21px;
+      margin-top: 12px;
+    }
+
+    .progress-card h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .progress-number {
+      font-size: 34px;
+      font-weight: 800;
+      margin: 12px 0 8px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255,255,255,.25);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 68%;
+      height: 100%;
+      background: white;
+      border-radius: 10px;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 13px;
+      font-size: 13px;
+      opacity: .92;
+    }
+
+    .section-title {
+      font-size: 18px;
+      margin: 28px 0 14px;
+    }
+
+    .continue-card {
+      border: 1px solid #e7e8eb;
+      border-radius: 18px;
+      padding: 17px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .continue-label {
+      color: #a71920;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .continue-title {
+      font-weight: 700;
+      font-size: 17px;
+    }
+
+    .continue-progress {
+      font-size: 13px;
+      color: #777b82;
+      margin-top: 5px;
+    }
+
+    .play-button {
+      width: 45px;
+      height: 45px;
+      border: none;
+      border-radius: 50%;
+      background: #a71920;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .quick-card {
+      border: 1px solid #e7e8eb;
+      background: white;
+      border-radius: 18px;
+      padding: 17px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .quick-icon {
+      font-size: 25px;
+      margin-bottom: 10px;
+    }
+
+    .quick-title {
+      font-weight: 700;
+    }
+
+    .quick-subtitle {
+      color: #858990;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .coach {
+      background: #f8eeee;
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 12px;
+    }
+
+    .coach-title {
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .coach p {
+      color: #62666d;
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .navigation {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(480px, 100%);
+      background: rgba(255,255,255,.97);
+      border-top: 1px solid #e8e8e8;
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+      padding: 10px 4px 18px;
+    }
+
+    .nav-item {
+      text-align: center;
+      font-size: 11px;
+      color: #8b8e94;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .nav-item.active {
+      color: #a71920;
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <header class="header">
+
+    <div class="brand">
+      <div class="cross"></div>
+
+      <div>
+        <div class="brand-title">Red Cross Academy</div>
+        <div class="brand-subtitle">Εκπαίδευση • Εξάσκηση • Ετοιμότητα</div>
+      </div>
+    </div>
+
+    <h1>Καλημέρα 👋</h1>
+    <p class="welcome">Έτοιμη για τη σημερινή εκπαίδευση;</p>
+
+  </header>
+
+  <main class="content">
+
+    <section class="progress-card">
+
+      <h2>Η πρόοδός μου</h2>
+
+      <div class="progress-number">68%</div>
+
+      <div class="progress-track">
+        <div class="progress-bar"></div>
+      </div>
+
+      <div class="progress-meta">
+        <span>🏆 Επίπεδο 8</span>
+        <span>🔥 12 ημέρες</span>
+        <span>2460 XP</span>
+      </div>
+
+    </section>
+
+
+    <h2 class="section-title">Συνέχισε την εκπαίδευση</h2>
+
+    <section class="continue-card">
+
+      <div>
+        <div class="continue-label">ΤΕΛΕΥΤΑΙΑ ΕΝΟΤΗΤΑ</div>
+        <div class="continue-title">Ακινητοποιήσεις</div>
+        <div class="continue-progress">Ολοκλήρωση 67%</div>
+      </div>
+
+      <button class="play-button">▶</button>
+
+    </section>
+
+
+    <h2 class="section-title">Γρήγορη εξάσκηση</h2>
+
+    <section class="quick-grid">
+
+      <button class="quick-card">
+        <div class="quick-icon">📝</div>
+        <div class="quick-title">Daily Quiz</div>
+        <div class="quick-subtitle">10 ερωτήσεις</div>
+      </button>
+
+      <button class="quick-card">
+        <div class="quick-icon">❤️</div>
+        <div class="quick-title">BLS / AED</div>
+        <div class="quick-subtitle">Γρήγορη επανάληψη</div>
+      </button>
+
+      <button class="quick-card">
+        <div class="quick-icon">🚑</div>
+        <div class="quick-title">Mock Exam</div>
+        <div class="quick-subtitle">Προσομοίωση εξέτασης</div>
+      </button>
+
+      <button class="quick-card">
+        <div class="quick-icon">🧠</div>
+        <div class="quick-title">Τα λάθη μου</div>
+        <div class="quick-subtitle">Στοχευμένη επανάληψη</div>
+      </button>
+
+    </section>
+
+
+    <h2 class="section-title">Academy Coach</h2>
+
+    <section class="coach">
+
+      <div class="coach-title">🤖 Σημερινή πρόταση</div>
+
+      <p>Με βάση την πρόοδό σου, σήμερα προτείνεται επανάληψη:</p>
+
+      <p>• Βασική Υποστήριξη Ζωής</p>
+      <p>• Ακινητοποιήσεις</p>
+      <p>• Αντιμετώπιση αιμορραγίας</p>
+
+    </section>
+
+  </main>
+
+
+  <nav class="navigation">
+
+    <div class="nav-item active">
+      <span class="nav-icon">⌂</span>
+      Αρχική
+    </div>
+
+    <div class="nav-item">
+      <span class="nav-icon">📚</span>
+      Academy
+    </div>
+
+    <div class="nav-item">
+      <span class="nav-icon">📝</span>
+      Εξετάσεις
+    </div>
+
+    <div class="nav-item">
+      <span class="nav-icon">📊</span>
+      Πρόοδος
+    </div>
+
+    <div class="nav-item">
+      <span class="nav-icon">👤</span>
+      Προφίλ
+    </div>
+
+  </nav>
+
+</div>
+
+</body>
+</html>
