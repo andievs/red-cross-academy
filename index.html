@@ -1,181 +1,318 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Red Cross Academy</title>
+  <title>Rescue Academy</title>
 
   <style>
+    :root {
+      --bg: #f4f6f8;
+      --surface: #ffffff;
+      --text: #1f2328;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #b4232c;
+      --accent-dark: #8f1820;
+      --accent-soft: #f8e9eb;
+      --success: #2f855a;
+      --shadow: 0 8px 24px rgba(17, 24, 39, 0.07);
+    }
+
     * {
       box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f5f6f8;
-      color: #202124;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button {
+      font: inherit;
     }
 
     .app {
-      max-width: 480px;
-      margin: auto;
+      width: min(100%, 520px);
+      margin: 0 auto;
       min-height: 100vh;
-      background: #ffffff;
-      padding-bottom: 90px;
+      background: var(--surface);
+      padding-bottom: 92px;
     }
 
     .header {
-      padding: 28px 22px 18px;
-      background: #ffffff;
+      padding: 24px 20px 16px;
+      background: var(--surface);
     }
 
     .brand {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
       gap: 12px;
-      margin-bottom: 25px;
     }
 
-    .cross {
-      width: 42px;
-      height: 42px;
-      background: #d71920;
-      border-radius: 10px;
-      position: relative;
-    }
-
-    .cross::before,
-    .cross::after {
-      content: "";
-      position: absolute;
-      background: white;
-      border-radius: 2px;
-    }
-
-    .cross::before {
-      width: 24px;
-      height: 8px;
-      top: 17px;
-      left: 9px;
-    }
-
-    .cross::after {
-      width: 8px;
-      height: 24px;
-      top: 9px;
-      left: 17px;
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 800;
+      letter-spacing: 0.5px;
     }
 
     .brand-title {
-      font-weight: 750;
       font-size: 19px;
+      font-weight: 800;
     }
 
     .brand-subtitle {
+      margin-top: 3px;
       font-size: 12px;
-      color: #7b7f86;
-      margin-top: 2px;
+      color: var(--muted);
     }
 
-    h1 {
-      font-size: 26px;
-      margin: 0 0 6px;
+    .demo-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      background: var(--accent-soft);
+      padding: 7px 10px;
+      border-radius: 999px;
     }
 
-    .welcome {
-      color: #72767d;
+    .greeting h1 {
       margin: 0;
+      font-size: 27px;
+      line-height: 1.2;
+    }
+
+    .greeting p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
     }
 
     .content {
-      padding: 0 20px;
+      padding: 0 18px;
     }
 
-    .progress-card {
-      background: #a71920;
-      color: white;
+    .hero {
+      margin-top: 8px;
+      padding: 20px;
       border-radius: 22px;
-      padding: 21px;
-      margin-top: 12px;
+      background: linear-gradient(145deg, var(--accent), var(--accent-dark));
+      color: white;
+      box-shadow: var(--shadow);
     }
 
-    .progress-card h2 {
+    .hero-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      opacity: 0.82;
+      margin-bottom: 5px;
+    }
+
+    .hero h2 {
       margin: 0;
-      font-size: 18px;
+      font-size: 20px;
     }
 
-    .progress-number {
+    .hero-number {
       font-size: 34px;
       font-weight: 800;
-      margin: 12px 0 8px;
     }
 
     .progress-track {
-      width: 100%;
-      height: 8px;
-      background: rgba(255,255,255,.25);
-      border-radius: 10px;
+      height: 10px;
+      background: rgba(255,255,255,.24);
+      border-radius: 999px;
       overflow: hidden;
+      margin-top: 16px;
     }
 
     .progress-bar {
       width: 68%;
       height: 100%;
       background: white;
-      border-radius: 10px;
+      border-radius: inherit;
     }
 
-    .progress-meta {
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .meta-item {
+      background: rgba(255,255,255,.11);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .meta-label {
+      display: block;
+      font-size: 11px;
+      opacity: .76;
+      margin-bottom: 3px;
+    }
+
+    .meta-value {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .section-title-row {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      margin-top: 13px;
-      font-size: 13px;
-      opacity: .92;
+      gap: 12px;
+      margin: 28px 2px 13px;
     }
 
     .section-title {
+      margin: 0;
       font-size: 18px;
-      margin: 28px 0 14px;
+    }
+
+    .section-link {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .today-card,
+    .continue-card,
+    .coach-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      background: var(--surface);
+    }
+
+    .today-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .today-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      background: #eef1f4;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .status-dot.done {
+      background: #e7f4ec;
+      color: var(--success);
+    }
+
+    .today-copy {
+      flex: 1;
+    }
+
+    .today-title {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .today-subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
     }
 
     .continue-card {
-      border: 1px solid #e7e8eb;
-      border-radius: 18px;
-      padding: 17px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 16px;
     }
 
-    .continue-label {
-      color: #a71920;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 5px;
+    .continue-copy {
+      flex: 1;
+    }
+
+    .small-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: .4px;
     }
 
     .continue-title {
-      font-weight: 700;
+      margin-top: 6px;
       font-size: 17px;
+      font-weight: 800;
     }
 
-    .continue-progress {
-      font-size: 13px;
-      color: #777b82;
-      margin-top: 5px;
+    .continue-subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
     }
 
-    .play-button {
-      width: 45px;
-      height: 45px;
+    .mini-track {
+      margin-top: 10px;
+      height: 7px;
+      background: #edf0f2;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .mini-bar {
+      width: 67%;
+      height: 100%;
+      background: var(--accent);
+    }
+
+    .primary-circle {
+      width: 46px;
+      height: 46px;
       border: none;
       border-radius: 50%;
-      background: #a71920;
+      background: var(--accent);
       color: white;
-      font-size: 17px;
       cursor: pointer;
+      font-size: 17px;
+      flex: 0 0 auto;
     }
 
     .quick-grid {
@@ -185,45 +322,129 @@
     }
 
     .quick-card {
-      border: 1px solid #e7e8eb;
-      background: white;
+      border: 1px solid var(--border);
+      background: var(--surface);
       border-radius: 18px;
       padding: 17px;
+      text-align: left;
+      min-height: 118px;
+      cursor: pointer;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+
+    .quick-card:hover {
+      transform: translateY(-1px);
+      border-color: #d4d7db;
+    }
+
+    .icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    .quick-title {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .quick-subtitle {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .modules {
+      display: grid;
+      gap: 11px;
+    }
+
+    .module {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 17px;
+      padding: 15px 16px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
       text-align: left;
       cursor: pointer;
     }
 
-    .quick-icon {
-      font-size: 25px;
-      margin-bottom: 10px;
-    }
-
-    .quick-title {
-      font-weight: 700;
-    }
-
-    .quick-subtitle {
-      color: #858990;
+    .module-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: #f1f3f5;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
       font-size: 12px;
-      margin-top: 4px;
+      color: #4b5563;
+      flex: 0 0 auto;
     }
 
-    .coach {
-      background: #f8eeee;
-      border-radius: 18px;
-      padding: 18px;
-      margin-top: 12px;
+    .module-copy {
+      flex: 1;
+    }
+
+    .module-title {
+      font-weight: 750;
+      font-size: 14px;
+    }
+
+    .module-subtitle {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .chevron {
+      color: #a1a6ad;
+      font-size: 18px;
+    }
+
+    .coach-card {
+      background: #fbf2f3;
+      border-color: #f1d7da;
     }
 
     .coach-title {
-      font-weight: 700;
-      margin-bottom: 8px;
+      font-weight: 800;
+      margin-bottom: 7px;
     }
 
-    .coach p {
-      color: #62666d;
-      margin: 5px 0;
-      font-size: 14px;
+    .coach-text {
+      color: #555b63;
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .coach-list {
+      margin: 12px 0 0;
+      padding-left: 18px;
+      color: #454b52;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .notice {
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #f5f6f7;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
     }
 
     .navigation {
@@ -231,29 +452,78 @@
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: min(480px, 100%);
-      background: rgba(255,255,255,.97);
-      border-top: 1px solid #e8e8e8;
+      width: min(100%, 520px);
       display: grid;
-      grid-template-columns: repeat(5,1fr);
-      padding: 10px 4px 18px;
+      grid-template-columns: repeat(5, 1fr);
+      background: rgba(255,255,255,.97);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      padding: 9px 4px 15px;
+      z-index: 20;
     }
 
-    .nav-item {
-      text-align: center;
-      font-size: 11px;
-      color: #8b8e94;
+    .nav-button {
+      border: none;
+      background: transparent;
+      color: #8a9099;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 4px 2px;
+      font-size: 10px;
     }
 
     .nav-icon {
-      font-size: 20px;
-      display: block;
-      margin-bottom: 3px;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 11px;
     }
 
-    .nav-item.active {
-      color: #a71920;
-      font-weight: 700;
+    .nav-button.active {
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .nav-button.active .nav-icon {
+      background: var(--accent-soft);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 104px;
+      transform: translateX(-50%) translateY(15px);
+      width: min(calc(100% - 40px), 440px);
+      padding: 12px 15px;
+      border-radius: 14px;
+      background: #20242a;
+      color: white;
+      font-size: 13px;
+      opacity: 0;
+      pointer-events: none;
+      transition: .2s ease;
+      z-index: 30;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 380px) {
+      .hero-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -265,133 +535,371 @@
   <header class="header">
 
     <div class="brand">
-      <div class="cross"></div>
+      <div class="brand-left">
+        <div class="brand-mark">RA</div>
 
-      <div>
-        <div class="brand-title">Red Cross Academy</div>
-        <div class="brand-subtitle">Εκπαίδευση • Εξάσκηση • Ετοιμότητα</div>
+        <div>
+          <div class="brand-title">Rescue Academy</div>
+          <div class="brand-subtitle">Μάθηση • Εξάσκηση • Ετοιμότητα</div>
+        </div>
       </div>
+
+      <div class="demo-badge">Prototype v0.2</div>
     </div>
 
-    <h1>Καλημέρα 👋</h1>
-    <p class="welcome">Έτοιμη για τη σημερινή εκπαίδευση;</p>
+    <div class="greeting">
+      <h1>Καλημέρα</h1>
+      <p>Συνέχισε με μικρά, σταθερά βήματα.</p>
+    </div>
 
   </header>
 
   <main class="content">
 
-    <section class="progress-card">
+    <section class="hero">
 
-      <h2>Η πρόοδός μου</h2>
+      <div class="hero-top">
+        <div>
+          <div class="eyebrow">ΣΥΝΟΛΙΚΗ ΠΡΟΟΔΟΣ • DEMO</div>
+          <h2>Η εκπαίδευσή μου</h2>
+        </div>
 
-      <div class="progress-number">68%</div>
+        <div class="hero-number">68%</div>
+      </div>
 
       <div class="progress-track">
         <div class="progress-bar"></div>
       </div>
 
-      <div class="progress-meta">
-        <span>🏆 Επίπεδο 8</span>
-        <span>🔥 12 ημέρες</span>
-        <span>2460 XP</span>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-label">Επίπεδο</span>
+          <span class="meta-value">8</span>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Συνέχεια</span>
+          <span class="meta-value">12 ημέρες</span>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Πόντοι</span>
+          <span class="meta-value">2.460 XP</span>
+        </div>
       </div>
 
     </section>
 
 
-    <h2 class="section-title">Συνέχισε την εκπαίδευση</h2>
+    <div class="section-title-row">
+      <h2 class="section-title">Σημερινός στόχος</h2>
+      <span class="section-link">2 / 3</span>
+    </div>
+
+    <section class="today-card">
+      <div class="today-list">
+
+        <div class="today-item">
+          <div class="status-dot done">✓</div>
+
+          <div class="today-copy">
+            <div class="today-title">10 ερωτήσεις επανάληψης</div>
+            <div class="today-subtitle">Ολοκληρώθηκε</div>
+          </div>
+        </div>
+
+        <div class="today-item">
+          <div class="status-dot done">✓</div>
+
+          <div class="today-copy">
+            <div class="today-title">Βασική Υποστήριξη Ζωής</div>
+            <div class="today-subtitle">5 λεπτά επανάληψη</div>
+          </div>
+        </div>
+
+        <div class="today-item">
+          <div class="status-dot">3</div>
+
+          <div class="today-copy">
+            <div class="today-title">Επανάληψη λαθών</div>
+            <div class="today-subtitle">8 ερωτήσεις απομένουν</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <div class="section-title-row">
+      <h2 class="section-title">Συνέχισε από εκεί που σταμάτησες</h2>
+    </div>
 
     <section class="continue-card">
 
-      <div>
-        <div class="continue-label">ΤΕΛΕΥΤΑΙΑ ΕΝΟΤΗΤΑ</div>
-        <div class="continue-title">Ακινητοποιήσεις</div>
-        <div class="continue-progress">Ολοκλήρωση 67%</div>
+      <div class="continue-copy">
+        <div class="small-label">ΤΕΛΕΥΤΑΙΑ ΕΝΟΤΗΤΑ</div>
+        <div class="continue-title">Κακώσεις & Ακινητοποιήσεις</div>
+        <div class="continue-subtitle">Ολοκλήρωση 67%</div>
+
+        <div class="mini-track">
+          <div class="mini-bar"></div>
+        </div>
       </div>
 
-      <button class="play-button">▶</button>
+      <button
+        class="primary-circle action-button"
+        data-message="Η συνέχεια της ενότητας θα ενεργοποιηθεί στην επόμενη έκδοση."
+        aria-label="Συνέχεια ενότητας"
+      >
+        ▶
+      </button>
 
     </section>
 
 
-    <h2 class="section-title">Γρήγορη εξάσκηση</h2>
+    <div class="section-title-row">
+      <h2 class="section-title">Γρήγορη εξάσκηση</h2>
+    </div>
 
     <section class="quick-grid">
 
-      <button class="quick-card">
-        <div class="quick-icon">📝</div>
+      <button
+        class="quick-card action-button"
+        data-message="Το Daily Quiz θα συνδεθεί με την τράπεζα ερωτήσεων."
+      >
+        <div class="icon-box">DQ</div>
         <div class="quick-title">Daily Quiz</div>
-        <div class="quick-subtitle">10 ερωτήσεις</div>
+        <div class="quick-subtitle">10 σύντομες ερωτήσεις</div>
       </button>
 
-      <button class="quick-card">
-        <div class="quick-icon">❤️</div>
-        <div class="quick-title">BLS / AED</div>
-        <div class="quick-subtitle">Γρήγορη επανάληψη</div>
-      </button>
-
-      <button class="quick-card">
-        <div class="quick-icon">🚑</div>
+      <button
+        class="quick-card action-button"
+        data-message="Η προσομοίωση εξέτασης θα προστεθεί στη v0.3."
+      >
+        <div class="icon-box">ME</div>
         <div class="quick-title">Mock Exam</div>
         <div class="quick-subtitle">Προσομοίωση εξέτασης</div>
       </button>
 
-      <button class="quick-card">
-        <div class="quick-icon">🧠</div>
+      <button
+        class="quick-card action-button"
+        data-message="Εδώ θα συγκεντρώνονται αυτόματα οι λάθος απαντήσεις σου."
+      >
+        <div class="icon-box">LM</div>
         <div class="quick-title">Τα λάθη μου</div>
         <div class="quick-subtitle">Στοχευμένη επανάληψη</div>
+      </button>
+
+      <button
+        class="quick-card action-button"
+        data-message="Τα Flashcards θα προστεθούν μαζί με την οργανωμένη ύλη."
+      >
+        <div class="icon-box">FC</div>
+        <div class="quick-title">Flashcards</div>
+        <div class="quick-subtitle">Γρήγορη απομνημόνευση</div>
       </button>
 
     </section>
 
 
-    <h2 class="section-title">Academy Coach</h2>
+    <div class="section-title-row">
+      <h2 class="section-title">Εκπαιδευτικές ενότητες</h2>
+      <span class="section-link">Προσωρινή δομή</span>
+    </div>
 
-    <section class="coach">
+    <section class="modules">
 
-      <div class="coach-title">🤖 Σημερινή πρόταση</div>
+      <button
+        class="module action-button"
+        data-message="Η ενότητα BLS / AED θα συνδεθεί με το πραγματικό εκπαιδευτικό υλικό."
+      >
+        <div class="module-number">01</div>
 
-      <p>Με βάση την πρόοδό σου, σήμερα προτείνεται επανάληψη:</p>
+        <div class="module-copy">
+          <div class="module-title">Βασική Υποστήριξη Ζωής & AED</div>
+          <div class="module-subtitle">Αλγόριθμοι, ασφάλεια, αναζωογόνηση</div>
+        </div>
 
-      <p>• Βασική Υποστήριξη Ζωής</p>
-      <p>• Ακινητοποιήσεις</p>
-      <p>• Αντιμετώπιση αιμορραγίας</p>
+        <div class="chevron">›</div>
+      </button>
+
+      <button
+        class="module action-button"
+        data-message="Η ενότητα τραύματος θα οργανωθεί από τα ανεβασμένα πρωτόκολλα."
+      >
+        <div class="module-number">02</div>
+
+        <div class="module-copy">
+          <div class="module-title">Τραύμα & Αιμορραγίες</div>
+          <div class="module-subtitle">Εκτίμηση και αρχική αντιμετώπιση</div>
+        </div>
+
+        <div class="chevron">›</div>
+      </button>
+
+      <button
+        class="module action-button"
+        data-message="Η ενότητα ακινητοποιήσεων θα εμπλουτιστεί με τις τεχνικές της Σχολής."
+      >
+        <div class="module-number">03</div>
+
+        <div class="module-copy">
+          <div class="module-title">Κακώσεις & Ακινητοποιήσεις</div>
+          <div class="module-subtitle">Σπονδυλική στήλη, άκρα και μεταφορά</div>
+        </div>
+
+        <div class="chevron">›</div>
+      </button>
+
+      <button
+        class="module action-button"
+        data-message="Οι διασωστικές λαβές και οι μεταφορές θα αποτελέσουν ξεχωριστή ενότητα."
+      >
+        <div class="module-number">04</div>
+
+        <div class="module-copy">
+          <div class="module-title">Διασωστικές Λαβές & Μεταφορά</div>
+          <div class="module-subtitle">Λαβές, φορεία και ασφαλής μετακίνηση</div>
+        </div>
+
+        <div class="chevron">›</div>
+      </button>
+
+      <button
+        class="module action-button"
+        data-message="Η Δεοντολογία θα βασιστεί αποκλειστικά στο επίσημο υλικό."
+      >
+        <div class="module-number">05</div>
+
+        <div class="module-copy">
+          <div class="module-title">Δεοντολογία & Θεμελιώδεις Αρχές</div>
+          <div class="module-subtitle">Ρόλος εθελοντή και επαγγελματική συμπεριφορά</div>
+        </div>
+
+        <div class="chevron">›</div>
+      </button>
 
     </section>
+
+
+    <div class="section-title-row">
+      <h2 class="section-title">Academy Coach</h2>
+    </div>
+
+    <section class="coach-card">
+      <div class="coach-title">Σημερινή πρόταση μελέτης</div>
+
+      <p class="coach-text">
+        Αυτή είναι ακόμη δοκιμαστική πρόταση. Στην τελική εφαρμογή ο Coach
+        θα χρησιμοποιεί τις πραγματικές απαντήσεις και τα λάθη του χρήστη.
+      </p>
+
+      <ul class="coach-list">
+        <li>Βασική Υποστήριξη Ζωής</li>
+        <li>Κακώσεις σπονδυλικής στήλης</li>
+        <li>Διασωστικές λαβές</li>
+      </ul>
+    </section>
+
+    <div class="notice">
+      Η Rescue Academy βρίσκεται σε στάδιο prototype. Τα ποσοστά, τα XP,
+      τα επίπεδα και οι σημερινές προτάσεις είναι δοκιμαστικά δεδομένα και
+      δεν αποτελούν ακόμη πραγματική αξιολόγηση χρήστη.
+    </div>
 
   </main>
 
 
-  <nav class="navigation">
+  <nav class="navigation" aria-label="Κύρια πλοήγηση">
 
-    <div class="nav-item active">
-      <span class="nav-icon">⌂</span>
+    <button
+      class="nav-button active"
+      data-nav="Αρχική"
+      type="button"
+    >
+      <span class="nav-icon">H</span>
       Αρχική
-    </div>
+    </button>
 
-    <div class="nav-item">
-      <span class="nav-icon">📚</span>
+    <button
+      class="nav-button"
+      data-nav="Academy"
+      type="button"
+    >
+      <span class="nav-icon">A</span>
       Academy
-    </div>
+    </button>
 
-    <div class="nav-item">
-      <span class="nav-icon">📝</span>
+    <button
+      class="nav-button"
+      data-nav="Εξετάσεις"
+      type="button"
+    >
+      <span class="nav-icon">E</span>
       Εξετάσεις
-    </div>
+    </button>
 
-    <div class="nav-item">
-      <span class="nav-icon">📊</span>
+    <button
+      class="nav-button"
+      data-nav="Πρόοδος"
+      type="button"
+    >
+      <span class="nav-icon">P</span>
       Πρόοδος
-    </div>
+    </button>
 
-    <div class="nav-item">
-      <span class="nav-icon">👤</span>
+    <button
+      class="nav-button"
+      data-nav="Προφίλ"
+      type="button"
+    >
+      <span class="nav-icon">U</span>
       Προφίλ
-    </div>
+    </button>
 
   </nav>
 
 </div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  const toast = document.getElementById("toast");
+  let toastTimer;
+
+  function showToast(message) {
+    clearTimeout(toastTimer);
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    toastTimer = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2600);
+  }
+
+  document.querySelectorAll(".action-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      showToast(button.dataset.message);
+    });
+  });
+
+  document.querySelectorAll(".nav-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      document.querySelectorAll(".nav-button").forEach((item) => {
+        item.classList.remove("active");
+      });
+
+      button.classList.add("active");
+
+      if (button.dataset.nav !== "Αρχική") {
+        showToast(
+          `Η οθόνη «${button.dataset.nav}» θα δημιουργηθεί σε επόμενη έκδοση.`
+        );
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
