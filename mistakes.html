@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Τα λάθη μου | Rescue Academy</title>
+
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --surface: #ffffff;
+      --text: #1f2328;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #b4232c;
+      --accent-soft: #f8e9eb;
+      --success: #2f855a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      width: min(100%, 520px);
+      min-height: 100vh;
+      margin: 0 auto;
+      background: var(--surface);
+      padding-bottom: 32px;
+    }
+
+    header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .back {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 12px;
+      background: #f1f3f5;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .title p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    .summary {
+      background: var(--accent-soft);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 22px;
+    }
+
+    .summary-label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .summary-number {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+
+    .summary-text {
+      margin-top: 5px;
+      font-size: 13px;
+      color: #555b63;
+    }
+
+    .empty {
+      display: none;
+      text-align: center;
+      padding: 50px 10px;
+    }
+
+    .empty.show {
+      display: block;
+    }
+
+    .empty-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      display: grid;
+      place-items: center;
+      background: #eaf6ef;
+      color: var(--success);
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .empty h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .empty p {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .mistakes-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .mistake-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      background: white;
+    }
+
+    .category {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
+      letter-spacing: .3px;
+    }
+
+    .question {
+      font-size: 16px;
+      font-weight: 750;
+      line-height: 1.45;
+      margin-bottom: 13px;
+    }
+
+    .answer-row {
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    .wrong-answer {
+      background: #fdecec;
+      color: #8f1f1f;
+    }
+
+    .correct-answer {
+      background: #eaf6ef;
+      color: #246b46;
+    }
+
+    .explanation {
+      margin-top: 13px;
+      color: #555b63;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .remove-button {
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 12px;
+      padding: 9px 12px;
+      cursor: pointer;
+      font-weight: 700;
+      color: #555b63;
+    }
+
+    .actions {
+      margin-top: 22px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .primary {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      background: var(--accent);
+      color: white;
+      padding: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .secondary {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: white;
+      color: var(--text);
+      padding: 14px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <header>
+    <div class="topbar">
+
+      <button class="back" id="backButton">←</button>
+
+      <div class="title">
+        <h1>Τα λάθη μου</h1>
+        <p>Στοχευμένη επανάληψη</p>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <section class="summary">
+      <div class="summary-label">Ερωτήσεις για επανάληψη</div>
+      <div class="summary-number" id="mistakeCount">0</div>
+      <div class="summary-text">
+        Εδώ αποθηκεύονται οι ερωτήσεις στις οποίες έχεις απαντήσει λάθος.
+      </div>
+    </section>
+
+    <section class="empty" id="emptyState">
+
+      <div class="empty-icon">✓</div>
+
+      <h2>Δεν υπάρχουν λάθη</h2>
+
+      <p>
+        Όταν απαντήσεις λάθος σε κάποια ερώτηση του Daily Quiz,
+        θα εμφανιστεί εδώ για επανάληψη.
+      </p>
+
+    </section>
+
+    <section class="mistakes-list" id="mistakesList"></section>
+
+    <div class="actions">
+
+      <button class="primary" id="quizButton">
+        Κάνε Daily Quiz
+      </button>
+
+      <button class="secondary" id="clearButton">
+        Καθαρισμός λίστας λαθών
+      </button>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+
+const mistakesList = document.getElementById("mistakesList");
+const mistakeCount = document.getElementById("mistakeCount");
+const emptyState = document.getElementById("emptyState");
+const clearButton = document.getElementById("clearButton");
+
+function getMistakes() {
+  return JSON.parse(localStorage.getItem("rescueAcademyMistakes") || "[]");
+}
+
+function saveMistakes(items) {
+  localStorage.setItem("rescueAcademyMistakes", JSON.stringify(items));
+}
+
+function renderMistakes() {
+
+  const mistakes = getMistakes();
+
+  mistakeCount.textContent = mistakes.length;
+  mistakesList.innerHTML = "";
+
+  if (mistakes.length === 0) {
+    emptyState.classList.add("show");
+    clearButton.style.display = "none";
+    return;
+  }
+
+  emptyState.classList.remove("show");
+  clearButton.style.display = "block";
+
+  mistakes.forEach((item, index) => {
+
+    const card = document.createElement("article");
+    card.className = "mistake-card";
+
+    card.innerHTML = `
+      <div class="category">${item.category || "ΕΠΑΝΑΛΗΨΗ"}</div>
+
+      <div class="question">
+        ${item.question}
+      </div>
+
+      <div class="answer-row wrong-answer">
+        <strong>Η απάντησή σου:</strong><br>
+        ${item.userAnswer}
+      </div>
+
+      <div class="answer-row correct-answer">
+        <strong>Σωστή απάντηση:</strong><br>
+        ${item.correctAnswer}
+      </div>
+
+      <div class="explanation">
+        ${item.explanation || ""}
+      </div>
+
+      <button class="remove-button" data-index="${index}">
+        Το έμαθα - αφαίρεση
+      </button>
+    `;
+
+    mistakesList.appendChild(card);
+
+  });
+
+  document.querySelectorAll(".remove-button").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      const index = Number(button.dataset.index);
+      const updated = getMistakes();
+
+      updated.splice(index, 1);
+
+      saveMistakes(updated);
+      renderMistakes();
+
+    });
+
+  });
+
+}
+
+clearButton.addEventListener("click", () => {
+
+  if (confirm("Θέλεις να διαγράψεις όλα τα αποθηκευμένα λάθη;")) {
+    saveMistakes([]);
+    renderMistakes();
+  }
+
+});
+
+document.getElementById("quizButton")
+  .addEventListener("click", () => {
+    window.location.href = "quiz.html";
+  });
+
+document.getElementById("backButton")
+  .addEventListener("click", () => {
+    window.location.href = "index.html";
+  });
+
+renderMistakes();
+
+</script>
+
+</body>
+</html>
