@@ -632,36 +632,47 @@ function selectAnswer(index, selectedButton) {
 
   } else {
 
-    selectedButton.classList.add("wrong");
+  selectedButton.classList.add("wrong");
 
-    buttons[item.answer].classList.add("correct");
+  buttons[item.answer].classList.add("correct");
 
-    feedback.className =
-      "feedback show wrong";
+  feedback.className =
+    "feedback show wrong";
 
-    feedbackTitle.textContent =
-      "✕ Λάθος απάντηση";
+  feedbackTitle.textContent =
+    "✕ Λάθος απάντηση";
 
+
+  // Αποθήκευση της λάθος απάντησης
+  const mistakes =
+    JSON.parse(
+      localStorage.getItem("rescueAcademyMistakes") || "[]"
+    );
+
+  const mistakeItem = {
+    category: item.category,
+    question: item.question,
+    userAnswer: item.options[index],
+    correctAnswer: item.options[item.answer],
+    explanation: item.explanation
+  };
+
+
+  // Δεν αποθηκεύουμε την ίδια ερώτηση δύο φορές
+  const alreadyExists = mistakes.some(
+    mistake => mistake.question === item.question
+  );
+
+  if (!alreadyExists) {
+    mistakes.push(mistakeItem);
+
+    localStorage.setItem(
+      "rescueAcademyMistakes",
+      JSON.stringify(mistakes)
+    );
   }
 
-  feedbackText.textContent =
-    item.explanation;
-
-  scoreText.textContent =
-    `${score} σωστές`;
-
-  nextButton.classList.add("show");
-
 }
-
-
-nextButton.addEventListener("click", () => {
-
-  currentQuestion++;
-
-  if (currentQuestion < questions.length) {
-
-    loadQuestion();
 
   } else {
 
