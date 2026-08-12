@@ -672,7 +672,26 @@ function selectAnswer(index, selectedButton) {
     );
   }
 
+  }
+
+  feedbackText.textContent =
+    item.explanation;
+
+  scoreText.textContent =
+    `${score} σωστές`;
+
+  nextButton.classList.add("show");
+
 }
+
+
+nextButton.addEventListener("click", () => {
+
+  currentQuestion++;
+
+  if (currentQuestion < questions.length) {
+
+    loadQuestion();
 
   } else {
 
