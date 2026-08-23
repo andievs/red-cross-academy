@@ -535,10 +535,9 @@ const questions = [
 const dailyQuestions = [...questions]
   .sort(() => Math.random() - 0.5)
   .slice(0, 10);
+let currentQuestion = 0;
 let score = 0;
 let answered = false;
-
-
 const questionElement = document.getElementById("question");
 const categoryElement = document.getElementById("category");
 const answersElement = document.getElementById("answers");
@@ -608,9 +607,8 @@ function selectAnswer(index, selectedButton) {
 
   answered = true;
 
-  const item = questions[currentQuestion];
-
-  const buttons =
+  const item = dailyQuestions[currentQuestion];
+  const item = dailyQuestions[currentQuestion];
     document.querySelectorAll(".answer");
 
   buttons.forEach(button => {
